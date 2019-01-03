@@ -1,27 +1,31 @@
 public class Cell 
 {
-  int[] pos = new int[2];
-  color col = 0;
-  String sym = "";
+  int[]   cPos   = new int[2];
+  color   cCol   = 0;
+  String  cSym   = "";
+  boolean cAlive = false;
 
   Cell(int x, int y) 
   {
-    pos[0] = x;
-    pos[1] = y;
-    col = getColor();
-    sym = getSymbol();
+    cPos[0] = x;
+    cPos[1] = y;
+    cCol = getColor();
+    cSym = getSymbol(cCol);
   }
 
   color getColor() 
   {
-    return img.get(pos[0], pos[1]);
+    return img.get(cPos[0], cPos[1]);
   }
 
-  String getSymbol() 
+  String getSymbol(color c) 
   {
-    float imgBrightness = brightness(col);
-    float mapBightness = map(imgBrightness, 0, 255, 0, tonalSymbols.length-1);
-    int indexSymbols = int(mapBightness);
+    float bright = brightness(c);
+    float min = 0;
+    float max = 255;
+    float sym = tonalSymbols.length-1;
+    float mapping = map(bright, min, max, min, sym);
+    int indexSymbols = int(mapping);
     return tonalSymbols[indexSymbols];
   }
 
@@ -29,15 +33,15 @@ public class Cell
   {
     noFill();
     stroke(0, 10);
-    rect(pos[0], pos[1], patternSize, patternSize);
+    rect(cPos[0], cPos[1], patternSize, patternSize);
   }
-  
+
   void renderText() 
   {
     fill(0);
     textSize(patternSize);
     textAlign(CENTER, CENTER);
-    text(sym, pos[0] + patternSize/2, pos[1] + patternSize/2);
+    text(cSym, cPos[0] + patternSize/2, cPos[1] + patternSize/2);
   }
 
   void render() 
