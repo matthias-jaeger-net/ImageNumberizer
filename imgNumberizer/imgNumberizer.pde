@@ -5,32 +5,35 @@
 * Matthias Jäger, Graz 2018
 */
 
-// Data in
+// Image Data input
 PImage img;
 String imgUrl = "JohnvonNeumann-LosAlamos.jpg";
+
+// The image is split in cells
+ArrayList<Cell> cells = new ArrayList<Cell>(); 
 
 // Dimension settings
 int graphWidth = 30;  
 int graphHeight = 40; 
 int graphSize = 30;
-int screenWidth = graphWidth * graphSize;
-int screenHeight = graphHeight * graphSize;
+
 int patternSize = 20;
 
 // Mapping brightness     0    1    2    3    4    5    6    7    8    9    
 String[] tonalSymbols = {"*", "%", "$", ")", "(", "<", ">", ".", " ", " "};        
 
+// String[] tonalSymbols = {"W", "O", "R", "L", "D"};        
+
 
 void settings() 
 {
-  size(screenWidth, screenHeight);
+  size(graphWidth * graphSize, graphHeight * graphSize);
 }
 
 void setup() 
 {
   background(255);
   fill(0);
-  textSize(patternSize);
 
   img = loadImage(imgUrl);
   img.resize(width, height);
@@ -39,20 +42,7 @@ void setup()
   {
     for (int j = 0; j < height; j+= patternSize) 
     {
-      color currentColor = img.get(i, j);
-      float imgBrightness = brightness(currentColor);
-      float mappedBightness = map(imgBrightness, 0, 255, 0, tonalSymbols.length-1);
-      int indexSymbols = int(mappedBightness);
-      pushMatrix();
-      translate(i, j);
-      noFill();
-      stroke(0, 10);
-      rect(0, 0, patternSize, patternSize);
-      translate(patternSize/2, patternSize/2);
-      fill(0);
-      textAlign(CENTER, CENTER);
-      text(tonalSymbols[indexSymbols], 0, 0);
-      popMatrix();
+      cells.add(new Cell(i, j));
     }
   }
 }
@@ -60,6 +50,10 @@ void setup()
 void draw() 
 {
   noLoop();
+  
+  for (Cell c : cells) 
+    c.render();
+  
   save("portrait.jpg");
   exit();
 }
