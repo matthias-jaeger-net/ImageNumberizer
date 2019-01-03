@@ -1,6 +1,9 @@
 # ImageNumberizer
 Converts given images to an ASCII art like graph using the brightness values of the given input
 
+# How to use?
+Download or clone this repository, head over to http://processing.org/ and download the latest IDE version. Within the   `sketch/data` folder you can replace the image with your own. 
+
 # Test Image 1
 ![Johann von Neumann](imgNumberizer/portrait.jpg)
 
